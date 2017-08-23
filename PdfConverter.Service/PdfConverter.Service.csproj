@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9A450D8C-4528-4135-9085-2730541CE850}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>PdfConverter</RootNamespace>
-    <AssemblyName>PdfConverter</AssemblyName>
+    <RootNamespace>PdfConverter.Service</RootNamespace>
+    <AssemblyName>PdfConverter.Service</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,9 +50,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
-    </Reference>
-    <Reference Include="Topshelf.Linux, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.Linux.1.0.16.15\lib\Topshelf.Linux.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

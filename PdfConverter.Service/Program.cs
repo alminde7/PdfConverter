@@ -9,7 +9,6 @@ namespace PdfConverter
         {
             HostFactory.Run(x =>
             {
-                x.UseLinuxIfAvailable();
                 x.Service<Service>(s =>
                 {
                     s.ConstructUsing(service => new Service());
