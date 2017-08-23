@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using Microsoft.Office.Interop.Word;
 
-namespace PdfConverter
+namespace PdfConverter.Service
 {
     public class Service
     {
@@ -28,6 +26,7 @@ namespace PdfConverter
             _watcher.Filter = "*.docx";
             _watcher.Changed += new FileSystemEventHandler(OnChanged);
             _watcher.EnableRaisingEvents = true;
+            
         }
 
         public void Stop()
@@ -42,7 +41,7 @@ namespace PdfConverter
                 Name = e.Name,
                 Path = e.FullPath.TrimEnd(e.Name.ToCharArray()),
                 FullPath = e.FullPath,
-                Extension = e.FullPath.Split('.').Last()
+                Extension = "." + e.FullPath.Split('.').Last()
             };
 
             _pdfConverter.Push(doc);

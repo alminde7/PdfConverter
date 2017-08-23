@@ -1,7 +1,7 @@
 ﻿
 using Topshelf;
 
-namespace PdfConverter
+namespace PdfConverter.Service
 {
     class Program
     {
@@ -16,10 +16,10 @@ namespace PdfConverter
                     s.WhenStopped(tc => tc.Stop());
                 });
 
+                x.SetDisplayName("PDF Converter");
                 x.SetServiceName("Word to PDF Conversion");
-                x.SetDescription("asd");
-                x.SetDisplayName("PDFCONVERTER");
-
+                x.SetDescription("Services watches a folder an when a word doc is dropped into the folder, it will automatically convert it to a PDF");
+                
                 x.StartAutomatically();
             });
         }
