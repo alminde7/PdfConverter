@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using Microsoft.Office.Interop.Word;
-using Pmd.WindowsService;
 
 namespace PdfConverter
 {
-    public class Service : IService
+    public class Service
     {
         private static FileSystemWatcher _watcher;
+        private PdfConverter _pdfConverter;
 
         public void Start()
         {
+            _pdfConverter = new PdfConverter();
+
             var folderPath = ConfigurationManager.AppSettings["WatchFolder"];
             if (string.IsNullOrWhiteSpace(folderPath))
             {
@@ -32,41 +35,17 @@ namespace PdfConverter
             _watcher?.Dispose();
         }
 
-        private static void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs e)
         {
-
-            Application app = null;
-            Document doc = null;
-            try
+            var doc = new DocumentInfo()
             {
-                _watcher.EnableRaisingEvents = false;
+                Name = e.Name,
+                Path = e.FullPath.TrimEnd(e.Name.ToCharArray()),
+                FullPath = e.FullPath,
+                Extension = e.FullPath.Split('.').Last()
+            };
 
-                string newPath = "";
-
-                if (e.Name.EndsWith(".docx"))
-                {
-                    var newName = e.Name.Replace(".docx", ".pdf");
-                    newPath = e.FullPath.Replace(e.Name, newName);
-                }
-
-                app = new Microsoft.Office.Interop.Word.Application();
-                doc = app.Documents.Open(e.FullPath);
-
-                doc.SaveAs2(newPath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
-
-                doc.Close();
-                app.Quit();
-            }
-            catch (Exception exception)
-            {
-                doc?.Close();
-                app?.Quit();
-                _watcher.EnableRaisingEvents = true;
-            }
-            finally
-            {
-                _watcher.EnableRaisingEvents = true;
-            }
+            _pdfConverter.Push(doc);
         }
     }
 }
