@@ -1,20 +1,14 @@
 ﻿using System;
-using Microsoft.Office.Interop.Word;
+using Application = Microsoft.Office.Interop.PowerPoint.Application;
 
 namespace PdfConverter.Service.Converters
 {
-    public class XslxConverter : Converter
+    public class PptxConverter : Converter
     {
         protected override void Convert()
         {
-            https://code.msdn.microsoft.com/windowsapps/Convert-Power-Point-c88aed9d
-            SautinSoft.UseOffice u = new SautinSoft.UseOffice();
-
-            u.InitExcel();
-
-
-            Application app = new Microsoft.Office.Interop.Word.Application();
-            Document doc = null;
+            Application app = new Microsoft.Office.Interop.PowerPoint.Application();
+            PPTXDocument doc = null;
 
             do
             {

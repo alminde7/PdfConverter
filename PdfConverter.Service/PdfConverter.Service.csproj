@@ -72,9 +72,13 @@
     <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
     </Reference>
+    <Reference Include="UseOffice, Version=4.7.5.13, Culture=neutral, PublicKeyToken=f77041e5caa5fc2f, processorArchitecture=MSIL">
+      <HintPath>..\packages\sautinsoft.useoffice.4.7.5.13\lib\net45\UseOffice.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="Converters\PptxConverter.cs" />
     <Compile Include="Models\ConversionEvent.cs" />
     <Compile Include="Converters\DocxConverter.cs" />
     <Compile Include="Converters\Converter.cs" />
