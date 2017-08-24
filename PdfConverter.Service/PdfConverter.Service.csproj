@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -68,11 +74,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConversionEvent.cs" />
+    <Compile Include="AppConfig.cs" />
+    <Compile Include="Models\ConversionEvent.cs" />
+    <Compile Include="Converters\DocxConverter.cs" />
+    <Compile Include="Converters\Converter.cs" />
     <Compile Include="PdfConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="Converters\XslxConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

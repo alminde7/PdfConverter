@@ -15,7 +15,6 @@ namespace PdfConverter.Service
         public PdfConverter()
         {
             ConversionQueue = new Queue<DocumentInfo>();
-            
         }
 
         public void Push(DocumentInfo documentInfo)
