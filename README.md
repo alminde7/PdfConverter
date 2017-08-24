@@ -10,3 +10,6 @@ The path for the watchfolder is specified in appSettings.
     <add key="WatchFolder" value="Path to folder"/>
   </appSettings>
 ```
+
+## Future work
+- Add support for more file types
