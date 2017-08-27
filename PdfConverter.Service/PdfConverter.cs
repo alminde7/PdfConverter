@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using PdfConverter.Service.Converters;
-using SautinSoft;
+using PdfConverter.Service.Models;
 
 namespace PdfConverter.Service
 {
@@ -10,29 +8,38 @@ namespace PdfConverter.Service
     {
         public DocxConverter DocxConverter { get; }
         public PptxConverter PptxConverter { get; }
-        public XlsxConverter XslxConverter { get; }
+        public XlsxConverter XlsxConverter { get; }
+
+        public IDictionary<string, Converter> Converters { get; }
         
+        // hardcoded dependencies
         public PdfConverter()
         {
+            Converters = new Dictionary<string, Converter>();
+
             DocxConverter = new DocxConverter();
             PptxConverter = new PptxConverter();
-            XslxConverter = new XlsxConverter();
+            XlsxConverter = new XlsxConverter();
+
+            Converters.Add(DocxConverter.SupportedExtension, DocxConverter);
+            Converters.Add(PptxConverter.SupportedExtension, PptxConverter);
+            Converters.Add(XlsxConverter.SupportedExtension, XlsxConverter);
+        }
+
+        // constructor injection dependencies
+        public PdfConverter(IEnumerable<Converter> converters)
+        {
+            Converters = new Dictionary<string, Converter>();
+
+            foreach (var converter in converters)
+            {
+                Converters.Add(converter.SupportedExtension, converter);
+            }
         }
 
         public void Push(DocumentInfo documentInfo)
         {
-            if (documentInfo.Extension == XslxConverter.SupportedExtension)
-            {
-                XslxConverter.Push(documentInfo);
-            }
-            else if (documentInfo.Extension == PptxConverter.SupportedExtension)
-            {
-                PptxConverter.Push(documentInfo);
-            }
-            else if (documentInfo.Extension == DocxConverter.SupportedExtension)
-            {
-                DocxConverter.Push(documentInfo);
-            }
+            Converters[documentInfo.Extension].Push(documentInfo);
         }
     }
 }

@@ -1,14 +1,9 @@
 ﻿using System.Configuration;
 
-namespace PdfConverter.Service
+namespace PdfConverter.Service.Config
 {
     public class AppConfig
     {
         public static string[] AllowedFileTypes = ConfigurationManager.AppSettings["SupportedFileTypes"].Split(';');
-    }
-
-    public class Constants
-    {
-        public static readonly string PDFExtension = ".pdf";
     }
 }

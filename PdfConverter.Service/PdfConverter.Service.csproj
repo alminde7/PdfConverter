@@ -77,7 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConfig.cs" />
+    <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Config\Constants.cs" />
     <Compile Include="Converters\PptxConverter.cs" />
     <Compile Include="Models\ConversionEvent.cs" />
     <Compile Include="Converters\DocxConverter.cs" />

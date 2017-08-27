@@ -1,12 +1,12 @@
-﻿using SautinSoft;
+﻿using PdfConverter.Service.Config;
+using SautinSoft;
 
 namespace PdfConverter.Service.Converters
 {
     public class PptxConverter : Converter
     {
-        public PptxConverter() : base(".pptx")
-        {
-        }
+        public PptxConverter() : base(".pptx") {}
+
         protected override void Convert()
         {
             var u = new SautinSoft.UseOffice();

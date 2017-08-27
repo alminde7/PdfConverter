@@ -2,6 +2,8 @@
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using PdfConverter.Service.Config;
+using PdfConverter.Service.Models;
 
 namespace PdfConverter.Service
 {

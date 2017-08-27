@@ -1,12 +1,11 @@
-﻿using SautinSoft;
+﻿using PdfConverter.Service.Config;
+using SautinSoft;
 
 namespace PdfConverter.Service.Converters
 {
     public class DocxConverter : Converter
     {
-        public DocxConverter() : base(".docx")
-        {
-        }
+        public DocxConverter() : base(".docx") {}
 
         protected override void Convert()
         {

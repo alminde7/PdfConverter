@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.Office.Interop.Word;
+using PdfConverter.Service.Config;
 using SautinSoft;
 
 namespace PdfConverter.Service.Converters
 {
     public class XlsxConverter : Converter
     {
-        public XlsxConverter() : base(".xlsx")
-        {
-        }
+        public XlsxConverter() : base(".xlsx") {}
+
         protected override void Convert()
         {
             https://code.msdn.microsoft.com/windowsapps/Convert-Power-Point-c88aed9d

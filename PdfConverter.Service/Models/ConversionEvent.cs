@@ -1,4 +1,4 @@
-﻿namespace PdfConverter.Service
+﻿namespace PdfConverter.Service.Models
 {
     public class ConversionEvent
     {
