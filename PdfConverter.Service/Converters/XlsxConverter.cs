@@ -6,6 +6,9 @@ namespace PdfConverter.Service.Converters
 {
     public class XlsxConverter : Converter
     {
+        public XlsxConverter() : base(".xlsx")
+        {
+        }
         protected override void Convert()
         {
             https://code.msdn.microsoft.com/windowsapps/Convert-Power-Point-c88aed9d
@@ -21,9 +24,9 @@ namespace PdfConverter.Service.Converters
 
                     string newPath = "";
 
-                    if (document.Name.EndsWith(".xlsx"))
+                    if (document.Name.EndsWith(SupportedExtension))
                     {
-                        var newName = document.Name.Replace(".xlsx", ".pdf");
+                        var newName = document.Name.Replace(SupportedExtension, Constants.PDFExtension);
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 

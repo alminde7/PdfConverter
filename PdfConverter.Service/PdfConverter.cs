@@ -8,9 +8,9 @@ namespace PdfConverter.Service
 {
     public class PdfConverter
     {
-        public DocxConverter DocxConverter { get; set; }
-        public PptxConverter PptxConverter { get; set; }
-        public XlsxConverter XslxConverter { get; set; }
+        public DocxConverter DocxConverter { get; }
+        public PptxConverter PptxConverter { get; }
+        public XlsxConverter XslxConverter { get; }
         
         public PdfConverter()
         {
@@ -21,17 +21,17 @@ namespace PdfConverter.Service
 
         public void Push(DocumentInfo documentInfo)
         {
-            switch (documentInfo.Extension)
+            if (documentInfo.Extension == XslxConverter.SupportedExtension)
             {
-                case ".xlsx":
-                    XslxConverter.Push(documentInfo);
-                    break;
-                case ".pptx":
-                    PptxConverter.Push(documentInfo);
-                    break;
-                case ".docx":
-                    DocxConverter.Push(documentInfo);
-                    break;
+                XslxConverter.Push(documentInfo);
+            }
+            else if (documentInfo.Extension == PptxConverter.SupportedExtension)
+            {
+                PptxConverter.Push(documentInfo);
+            }
+            else if (documentInfo.Extension == DocxConverter.SupportedExtension)
+            {
+                DocxConverter.Push(documentInfo);
             }
         }
     }

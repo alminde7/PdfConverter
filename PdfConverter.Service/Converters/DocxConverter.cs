@@ -4,6 +4,10 @@ namespace PdfConverter.Service.Converters
 {
     public class DocxConverter : Converter
     {
+        public DocxConverter() : base(".docx")
+        {
+        }
+
         protected override void Convert()
         {
             var u = new SautinSoft.UseOffice();
@@ -18,9 +22,9 @@ namespace PdfConverter.Service.Converters
 
                     string newPath = "";
 
-                    if (document.Name.EndsWith(".docx"))
+                    if (document.Name.EndsWith(SupportedExtension))
                     {
-                        var newName = document.Name.Replace(".docx", ".pdf");
+                        var newName = document.Name.Replace(SupportedExtension, Constants.PDFExtension);
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 

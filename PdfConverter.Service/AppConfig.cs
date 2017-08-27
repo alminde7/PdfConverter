@@ -6,4 +6,9 @@ namespace PdfConverter.Service
     {
         public static string[] AllowedFileTypes = ConfigurationManager.AppSettings["SupportedFileTypes"].Split(';');
     }
+
+    public class Constants
+    {
+        public static readonly string PDFExtension = ".pdf";
+    }
 }

@@ -6,13 +6,20 @@ namespace PdfConverter.Service.Converters
 {
     public abstract class Converter
     {
-        protected Queue<DocumentInfo> ConversionQueue { get; }
+        public readonly string SupportedExtension;
 
+        protected Queue<DocumentInfo> ConversionQueue { get; }
         protected Thread ConversionThread { get; set; }
 
         protected Converter()
         {
             ConversionQueue = new Queue<DocumentInfo>();
+        }
+
+        protected Converter(string extension)
+        {
+            ConversionQueue = new Queue<DocumentInfo>();
+            SupportedExtension = extension;
         }
 
         public void Push(DocumentInfo document)
@@ -30,5 +37,7 @@ namespace PdfConverter.Service.Converters
         }
 
         protected abstract void Convert();
+
+        
     }
 }

@@ -4,6 +4,9 @@ namespace PdfConverter.Service.Converters
 {
     public class PptxConverter : Converter
     {
+        public PptxConverter() : base(".pptx")
+        {
+        }
         protected override void Convert()
         {
             var u = new SautinSoft.UseOffice();
@@ -18,9 +21,9 @@ namespace PdfConverter.Service.Converters
 
                     string newPath = "";
 
-                    if (document.Name.EndsWith(".pptx"))
+                    if (document.Name.EndsWith(SupportedExtension))
                     {
-                        var newName = document.Name.Replace(".pptx", ".pdf");
+                        var newName = document.Name.Replace(SupportedExtension, Constants.PDFExtension);
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 
