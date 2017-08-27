@@ -23,7 +23,7 @@ namespace PdfConverter.Service
             _watcher = new FileSystemWatcher();
             _watcher.Path = folderPath;
             _watcher.Created += OnChanged;
-            _watcher.Filter = "*.docx";
+            _watcher.Filter = "*.*";
             _watcher.Changed += new FileSystemEventHandler(OnChanged);
             _watcher.EnableRaisingEvents = true;
             
@@ -36,6 +36,8 @@ namespace PdfConverter.Service
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
+            if (!ValidateFiletype(e.Name)) return;
+
             var doc = new DocumentInfo()
             {
                 Name = e.Name,
@@ -45,6 +47,23 @@ namespace PdfConverter.Service
             };
 
             _pdfConverter.Push(doc);
+        }
+
+        private bool ValidateFiletype(string fileName)
+        {
+            var extension = fileName.Split('.').Last();
+
+            if (fileName.Contains('~'))
+            {
+                return false;
+            }
+
+            if (AppConfig.AllowedFileTypes.Contains(extension))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
