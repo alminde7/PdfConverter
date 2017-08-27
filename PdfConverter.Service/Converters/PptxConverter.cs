@@ -1,5 +1,4 @@
-﻿using System;
-using Application = Microsoft.Office.Interop.PowerPoint.Application;
+﻿using SautinSoft;
 
 namespace PdfConverter.Service.Converters
 {
@@ -7,36 +6,31 @@ namespace PdfConverter.Service.Converters
     {
         protected override void Convert()
         {
-            Application app = new Microsoft.Office.Interop.PowerPoint.Application();
-            PPTXDocument doc = null;
+            var u = new SautinSoft.UseOffice();
 
-            do
+            var result = u.InitPowerPoint();
+
+            if (result == 0) //succesfully opend program
             {
-                try
+                do
                 {
-                    var document = this.ConversionQueue.Dequeue();
+                    var document = ConversionQueue.Dequeue();
 
                     string newPath = "";
 
-                    if (document.Name.EndsWith(".docx"))
+                    if (document.Name.EndsWith(".pptx"))
                     {
-                        var newName = document.Name.Replace(".docx", ".pdf");
+                        var newName = document.Name.Replace(".pptx", ".pdf");
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 
-                    doc = app.Documents.Open(document.FullPath);
-                    doc.SaveAs2(newPath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
-                    doc.Close();
-                }
-                catch (Exception)
-                {
-                    doc?.Close();
-                }
+                    result = u.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.PPTX_to_PDF);
+                } while (ConversionQueue.Count > 0);
 
-            } while (this.ConversionQueue.Count > 0);
+                u.ClosePowerPoint();
+            }
 
-            app?.Quit();
-            this.ConversionThread.Abort();
+            ConversionThread.Abort();
         }
     }
 }

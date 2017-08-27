@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Office.Interop.Word;
+﻿using SautinSoft;
 
 namespace PdfConverter.Service.Converters
 {
@@ -7,14 +6,15 @@ namespace PdfConverter.Service.Converters
     {
         protected override void Convert()
         {
-            Application app = new Microsoft.Office.Interop.Word.Application();
-            Document doc = null;
+            var u = new SautinSoft.UseOffice();
 
-            do
+            var result = u.InitWord();
+
+            if (result == 0) //succesfully opend program
             {
-                try
+                do
                 {
-                    var document = this.ConversionQueue.Dequeue();
+                    var document = ConversionQueue.Dequeue();
 
                     string newPath = "";
 
@@ -24,19 +24,13 @@ namespace PdfConverter.Service.Converters
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 
-                    doc = app.Documents.Open(document.FullPath);
-                    doc.SaveAs2(newPath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
-                    doc.Close();
-                }
-                catch (Exception)
-                {
-                    doc?.Close();
-                }
+                    result = u.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.DOCX_to_PDF);
+                } while (ConversionQueue.Count > 0);
 
-            } while (this.ConversionQueue.Count > 0);
+                u.CloseWord();
+            }
 
-            app?.Quit();
-            this.ConversionThread.Abort();
+            ConversionThread.Abort();
         }
     }
 }

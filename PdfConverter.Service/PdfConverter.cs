@@ -1,68 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Microsoft.Office.Interop.Word;
+using PdfConverter.Service.Converters;
+using SautinSoft;
 
 namespace PdfConverter.Service
 {
     public class PdfConverter
     {
-        private Queue<DocumentInfo> ConversionQueue { get;}
-
-        private Thread ConversionThread { get; set; }
-
+        public DocxConverter DocxConverter { get; set; }
+        public PptxConverter PptxConverter { get; set; }
+        public XlsxConverter XslxConverter { get; set; }
+        
         public PdfConverter()
         {
-            ConversionQueue = new Queue<DocumentInfo>();
+            DocxConverter = new DocxConverter();
+            PptxConverter = new PptxConverter();
+            XslxConverter = new XlsxConverter();
         }
 
         public void Push(DocumentInfo documentInfo)
         {
-            if (!ConversionQueue.Contains(documentInfo) && !documentInfo.FullPath.Contains('~'))
+            switch (documentInfo.Extension)
             {
-                ConversionQueue.Enqueue(documentInfo);
+                case ".xlsx":
+                    XslxConverter.Push(documentInfo);
+                    break;
+                case ".pptx":
+                    PptxConverter.Push(documentInfo);
+                    break;
+                case ".docx":
+                    DocxConverter.Push(documentInfo);
+                    break;
             }
-
-            if (ConversionThread == null || !ConversionThread.IsAlive)
-            {
-                ConversionThread = new Thread(Convert);
-                ConversionThread.Start();
-            }
-        }
-
-        private void Convert()
-        {
-            Application app = new Microsoft.Office.Interop.Word.Application();
-            Document doc = null;
-            
-            do
-            {
-                try
-                {
-                    var document = ConversionQueue.Dequeue();
-
-                    string newPath = "";
-
-                    if (document.Name.EndsWith(".docx"))
-                    {
-                        var newName = document.Name.Replace(".docx", ".pdf");
-                        newPath = document.FullPath.Replace(document.Name, newName);
-                    }
-
-                    doc = app.Documents.Open(document.FullPath);
-                    doc.SaveAs2(newPath, Microsoft.Office.Interop.Word.WdSaveFormat.wdFormatPDF);
-                    doc.Close();
-                }
-                catch (Exception)
-                {
-                    doc?.Close();
-                }
-
-            } while (ConversionQueue.Count > 0);
-            
-            app?.Quit();
-            ConversionThread.Abort();
         }
     }
 }

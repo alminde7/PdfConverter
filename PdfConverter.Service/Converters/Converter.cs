@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace PdfConverter.Service.Converters
@@ -16,7 +17,10 @@ namespace PdfConverter.Service.Converters
 
         public void Push(DocumentInfo document)
         {
-            ConversionQueue.Enqueue(document);
+            if (ConversionQueue.All(x => x.Name != document.Name))
+            {
+                ConversionQueue.Enqueue(document);
+            }
 
             if (ConversionThread == null || !ConversionThread.IsAlive)
             {
