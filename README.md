@@ -1,6 +1,6 @@
-# .docx to PDF converter
+# PDF Converter
 
-This service converte .docx documents to PDF. It watches a folder - when a .docx document is dropped into the folder
+This service converte .docx documents to PDF. It watches a folder - when a document is dropped into the folder
 the service will automatically convert the document to PDF. 
 
 The path for the watchfolder is specified in appSettings.
@@ -11,5 +11,11 @@ The path for the watchfolder is specified in appSettings.
   </appSettings>
 ```
 
+## Supported file types
+As of now the file types supported is:
+- .docx
+- .pptx
+- .xlsx
+
 ## Future work
-- Add support for more file types
+To be determined...

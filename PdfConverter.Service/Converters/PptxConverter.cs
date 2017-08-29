@@ -5,13 +5,16 @@ namespace PdfConverter.Service.Converters
 {
     public class PptxConverter : Converter
     {
-        public PptxConverter() : base(".pptx") {}
+        private UseOffice SautinSoftOffice { get;}
+
+        public PptxConverter(UseOffice sautinSoftOffice) : base(".pptx")
+        {
+            SautinSoftOffice = sautinSoftOffice;
+        }
 
         protected override void Convert()
         {
-            var u = new SautinSoft.UseOffice();
-
-            var result = u.InitPowerPoint();
+            var result = SautinSoftOffice.InitPowerPoint();
 
             if (result == 0) //succesfully opend program
             {
@@ -27,10 +30,10 @@ namespace PdfConverter.Service.Converters
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 
-                    result = u.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.PPTX_to_PDF);
+                    result = SautinSoftOffice.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.PPTX_to_PDF);
                 } while (ConversionQueue.Count > 0);
 
-                u.ClosePowerPoint();
+                SautinSoftOffice.ClosePowerPoint();
             }
 
             ConversionThread.Abort();

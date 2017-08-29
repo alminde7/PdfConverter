@@ -42,6 +42,6 @@ namespace PdfConverter.Service.Converters
 
         protected abstract void Convert();
 
-        
     }
+    
 }

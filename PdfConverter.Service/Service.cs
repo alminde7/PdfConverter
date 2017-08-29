@@ -3,19 +3,22 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using PdfConverter.Service.Config;
+using PdfConverter.Service.Converters;
 using PdfConverter.Service.Models;
+using SautinSoft;
 
 namespace PdfConverter.Service
 {
     public class Service
     {
         private static FileSystemWatcher _watcher;
-        private PdfConverter _pdfConverter;
+        private ConverterQueue _converterQueue;
+        private IList<Converter> _converters;
 
         public void Start()
         {
-            _pdfConverter = new PdfConverter();
-
+            BootstrapApplication();
+            
             var folderPath = ConfigurationManager.AppSettings["WatchFolder"];
             if (string.IsNullOrWhiteSpace(folderPath))
             {
@@ -36,6 +39,19 @@ namespace PdfConverter.Service
             _watcher?.Dispose();
         }
 
+        public void BootstrapApplication()
+        {
+            _converters = new List<Converter>
+            {
+                new DocxConverter(new UseOffice()),
+                new PptxConverter(new UseOffice()),
+                new XlsxConverter(new UseOffice())
+            };
+
+            _converterQueue = new ConverterQueue(_converters);
+
+        }
+
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (!ValidateFiletype(e.Name)) return;
@@ -48,7 +64,7 @@ namespace PdfConverter.Service
                 Extension = "." + e.FullPath.Split('.').Last()
             };
 
-            _pdfConverter.Push(doc);
+            _converterQueue.Push(doc);
         }
 
         private bool ValidateFiletype(string fileName)

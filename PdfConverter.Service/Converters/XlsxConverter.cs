@@ -7,14 +7,16 @@ namespace PdfConverter.Service.Converters
 {
     public class XlsxConverter : Converter
     {
-        public XlsxConverter() : base(".xlsx") {}
+        private UseOffice SautinSoftOffice { get; }
+
+        public XlsxConverter(UseOffice sautinSoftOffice) : base(".xlsx")
+        {
+            SautinSoftOffice = sautinSoftOffice;
+        }
 
         protected override void Convert()
         {
-            https://code.msdn.microsoft.com/windowsapps/Convert-Power-Point-c88aed9d
-            SautinSoft.UseOffice u = new SautinSoft.UseOffice();
-
-            var result = u.InitExcel();
+            var result = SautinSoftOffice.InitExcel();
 
             if (result == 0) //succesfully opend program
             {
@@ -30,10 +32,10 @@ namespace PdfConverter.Service.Converters
                         newPath = document.FullPath.Replace(document.Name, newName);
                     }
 
-                    result = u.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.XLSX_to_PDF);
+                    result = SautinSoftOffice.ConvertFile(document.FullPath, newPath, UseOffice.eDirection.XLSX_to_PDF);
                 } while (ConversionQueue.Count > 0);
 
-                u.CloseExcel();
+                SautinSoftOffice.CloseExcel();
             }
 
             ConversionThread.Abort();
